@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g3 -o
+CFLAGS=-g3 -Wall -Wextra -o
 LDFLAGS=-lelf
 OBJ=bin/main.o bin/log.o bin/crypt.o
 

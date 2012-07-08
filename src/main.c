@@ -1,7 +1,5 @@
 #include <libelf.h>
-#include <string.h>
 #include <getopt.h>
-#include <unistd.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -42,9 +40,9 @@ main(int argc, char** argv)
             case 'o':
             case 'i':
                 target = (opt == 'o') ? &output  : &input;
-                opt    = (opt == 'o') ? O_WRONLY : O_RDONLY;
-                assert_fatal((*target = open(optarg, opt, 0)) != 1,
-                        "error opening %s", optarg);
+                opt    = (opt == 'o') ? O_WRONLY : (O_RDONLY | !O_CREAT);
+                assert_fatal((*target = open(optarg, opt, 0)) != -1,
+                        "error opening %s: %s", optarg, strerror(errno));
                 break;
         }
     }
