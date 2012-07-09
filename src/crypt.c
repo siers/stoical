@@ -50,11 +50,15 @@ find_text()
 int
 crypt()
 {
-    assert_fatal((exec.elf = elf_begin(input, ELF_C_READ, NULL)) != NULL,
+    assert_fatal((exec.elf = elf_begin(input, ELF_C_RDWR, NULL)) != NULL,
             "elf_begin failed: %s", elf_errmsg(-1));
+
     do_checks();
     find_text();
     print_info();
+
+    assert(elf_update(exec.elf, ELF_C_WRITE) != -1,
+            "elf_update failed with: %s", elf_errmsg(-1));
     elf_end(exec.elf);
 
     return 0;

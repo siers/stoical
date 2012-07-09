@@ -1,5 +1,5 @@
 #pragma once
 
-extern int output, input;
+extern int input;
 
 int crypt();
