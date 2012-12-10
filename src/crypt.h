@@ -2,4 +2,4 @@
 
 extern struct input input;
 
-void crypt();
+void encrypt_input();

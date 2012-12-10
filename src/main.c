@@ -37,7 +37,7 @@ main(int argc, char** argv)
         }
     }
 
-    crypt();
+    encrypt_input();
     fin();
     return 0;
 }

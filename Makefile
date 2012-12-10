@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g3 -Wall -Wextra -o
+CFLAGS=-g3 -Wall -Wextra -D_GNU_SOURCE -o
 LDFLAGS=-lelf
 OBJ=bin/main.o bin/log.o bin/crypt.o
 
