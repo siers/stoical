@@ -1,28 +1,27 @@
-#include <libelf.h>
 #include <getopt.h>
-#include <errno.h>
-#include <sys/stat.h>
 #include <fcntl.h>
-#include <stdint.h>
 #include "main.h"
 #include "log.h"
 #include "crypt.h"
 
-/* I/O executable paths. */
-int input;
-
 int loglvl = (uint16_t) -1;
 
 static void
-initialize()
+initialize(char* path)
 {
-    assert_fatal(elf_version(EV_CURRENT) != EV_NONE, "unable to initialize libelf");
+    assert_fatal((input.fd = open(path, O_RDWR, 0)) != -1,
+            "error opening %s: %s", optarg, strerror(errno));
+
+    assert_fatal(!fstat(input.fd, &input.st),
+            "stat failed: %s", strerror(errno));
+
+    log("Initialization went fine.");
 }
 
-static int
+static void
 fin()
 {
-    return close(input);
+    assert_fatal(!close(input.fd), "close failed: %s", strerror(errno));
 }
 
 int
@@ -30,17 +29,15 @@ main(int argc, char** argv)
 {
     int opt;
 
-    initialize();
-
     while ((opt = getopt(argc, argv, "i:")) != -1) {
         switch (opt) {
             case 'i':
-                assert_fatal((input = open(optarg, O_RDWR | O_APPEND, 0)) != -1,
-                        "error opening %s: %s", optarg, strerror(errno));
+                initialize(optarg);
                 break;
         }
     }
 
     crypt();
-    return fin();
+    fin();
+    return 0;
 }

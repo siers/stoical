@@ -1,5 +1,5 @@
 #pragma once
 
-extern int input;
+extern struct input input;
 
-int crypt();
+void crypt();

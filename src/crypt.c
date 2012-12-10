@@ -1,44 +1,43 @@
+#include <sys/mman.h>
 #include "crypt.h"
 #include "main.h"
 
 static struct executable {
-    Elf *elf;
-    Elf_Kind kind;
-    GElf_Ehdr ehdr;
+    void*           mem;
+    Elf32_Ehdr      ehdr;
 
-    GElf_Shdr text;
+    Elf32_Shdr*     text;
 } exec;
 
 static void
-do_checks()
+parse()
 {
-    assert_fatal((exec.kind = elf_kind(exec.elf)) == ELF_K_ELF,
-            "input file is not ELF");
-    assert_fatal((gelf_getehdr(exec.elf, &exec.ehdr)) != NULL,
-            "%s", elf_errmsg(-1));
+    exec.mem = mmap(0, input.st.st_size, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE, input.fd, 0);
+    memcpy(&exec.ehdr, exec.mem, sizeof(exec.ehdr));
+
     assert_fatal(exec.ehdr.e_type == ET_EXEC,
             "input file must be an executable");
 }
 
 static void
-print_info()
-{
-    log("The entry point is at 0x%.8x.", exec.ehdr.e_entry);
-    log(".text.size = 0x%xb", exec.text.sh_size);
-}
-
-static void
 find_text()
 {
-    Elf_Scn *scn = 0;
-    char* sh_name;
+    int sec_size          = exec.ehdr.e_shentsize;
+    Elf32_Shdr* secs_base = exec.mem + exec.ehdr.e_shoff;
+    Elf32_Shdr* str       = &secs_base[exec.ehdr.e_shstrndx];
 
-    while ((scn = elf_nextscn(exec.elf, scn)) != 0)
+    int i;
+    char* sh_name;
+    Elf32_Shdr* sec;
+
+    for (i = 0; i < exec.ehdr.e_shnum; i++)
     {
-        gelf_getshdr(scn, &exec.text);
-        sh_name = elf_strptr(exec.elf, exec.ehdr.e_shstrndx, exec.text.sh_name);
+        sec = &secs_base[i];
+        sh_name = (exec.mem + str->sh_offset) + sec->sh_name;
 
         if (strcmp(sh_name, ".text") == 0) {
+            exec.text = sec;
             return log(".text found");
         }
     }
@@ -46,20 +45,23 @@ find_text()
     assert_fatal(0, "Couldn't find .text section.");
 }
 
-/* Doesn't really crypt, just a name for the entry point.  */
-int
+static void
+print_info()
+{
+    log(".text = 0x%.8x.", exec.text);
+    log(".text.size = %.2f KiB", exec.text->sh_size / 1024.0);
+}
+
+static void
+alter_text()
+{
+}
+
+void
 crypt()
 {
-    assert_fatal((exec.elf = elf_begin(input, ELF_C_RDWR, NULL)) != NULL,
-            "elf_begin failed: %s", elf_errmsg(-1));
-
-    do_checks();
+    parse();
     find_text();
     print_info();
-
-    assert(elf_update(exec.elf, ELF_C_WRITE) != -1,
-            "elf_update failed with: %s", elf_errmsg(-1));
-    elf_end(exec.elf);
-
-    return 0;
+    alter_text();
 }
