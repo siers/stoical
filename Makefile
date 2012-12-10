@@ -3,13 +3,19 @@ CFLAGS=-g3 -Wall -Wextra -D_GNU_SOURCE -o
 LDFLAGS=-lelf
 OBJ=bin/main.o bin/log.o bin/crypt.o
 
-all: bin/main
+AC=nasm
+AFLAGS=-f bin -o
+
+all: bin/stub.bin.tmpl main
+
+bin/%.bin.tmpl: src/%.asm
+	$(AC) $^ $(AFLAGS) $@
+
+main: $(OBJ)
+	$(CC) $(LDFLAGS) $^ $(CFLAGS) $@
 
 bin/%.o: src/%.c
 	$(CC) $^ -c $(CFLAGS) $@
-
-bin/main: $(OBJ)
-	$(CC) $(LDFLAGS) $^ $(CFLAGS) $@
 
 .PHONY: clean
 

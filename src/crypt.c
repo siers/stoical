@@ -56,10 +56,9 @@ static void
 alter_text()
 {
     unsigned char *text = exec.mem + exec.text->sh_offset;
-    unsigned int i;
+    unsigned int i, size = exec.text->sh_size;
 
-    for (i = 0; i < exec.text->sh_size; i++) {
-        fprintf(stderr, "%c", text[i]);
+    for (i = 0; i < size; i++) {
     }
 }
 
