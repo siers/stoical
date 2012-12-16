@@ -1,5 +1,4 @@
 - stoical, proof-of-concept ELF crypter
-    Currently works on itself.
     Name taken from wiktionary's word of the day archive.
     Created for educational purposes, not obligatory to be continued.
 
@@ -22,12 +21,10 @@
 
 - example
     % make
-    % cp main dummy
-    % ./main dummy 
-    ...
-    [14291|1852.05] src/main.c:82 Success.
-    % ./dummy
-    [14294|1852.07] src/main.c:101 usage: ./stoical [options] <filename>
-    % md5sum dummy main 
-    65237ac6e20cdae695b2debe191a4e21  dummy
-    bb5136fac2a48713c4d785da2cc20660  main
+    % cp /bin/zsh .
+    % ./main zsh
+    % echo "echo $(( 9 * 9 ))" | ./zsh 
+    81
+    % md5sum /bin/zsh zsh
+    e38b368b434e201d1b09475d40397603  /bin/zsh
+    dae87ce1e2e8e6368306912798982b5b  zsh

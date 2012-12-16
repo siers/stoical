@@ -7,7 +7,8 @@ int loglvl = (uint16_t) -1;
 
 void* replaces[][2] = {
     {"c0febabe", (void*) 0},
-    {"cccccccc",     (void*) 0},
+    {"cccccccc", (void*) 0},
+    {"eeeeeeee", (void*) 0},
     /* Add enums for every entry in main.h */
 };
 

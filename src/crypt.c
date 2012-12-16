@@ -38,7 +38,8 @@ print_info()
 static void
 set_entry() /* From _text. */
 {
-    replaces[TEXT_ADDR][VAL_NEW] = (void*) exec.ehdr->e_entry;
+    replaces[TEXT_ADDR][VAL_NEW] = (void*) exec.text->sh_addr;
+    replaces[ENTRY_ADR][VAL_NEW] = (void*) exec.ehdr->e_entry;
     replaces[CRYPT_LEN][VAL_NEW] = (void*) exec.code_size;
     exec.ehdr->e_entry = exec.text->sh_addr + exec.code_size;
 }

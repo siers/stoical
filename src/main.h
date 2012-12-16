@@ -31,6 +31,7 @@ extern void* replaces[][2];
 enum {
     TEXT_ADDR,
     CRYPT_LEN,
+    ENTRY_ADR,
     REPLACE_COUNT
 };
 

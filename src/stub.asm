@@ -13,5 +13,5 @@ loop:
 
 fin:
 	popa
-	mov eax, 0xc0febabe				; .text addr
+	mov eax, 0xeeeeeeee				; .text addr
 	jmp eax
