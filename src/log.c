@@ -16,7 +16,6 @@ log_whine(int msgloglvl, char* file, int line, const char *fmt, ...)
     va_list ap;
     char* str;
     long int t;
-    struct tm* tmp;
     char timestr[255];
 
     if (msgloglvl >= loglvl)
@@ -26,17 +25,12 @@ log_whine(int msgloglvl, char* file, int line, const char *fmt, ...)
 
     /* Generate time string. */
     t = time(NULL);
-    tmp = localtime(&t);
-    strftime(timestr, 255, timeformat, tmp);
+    strftime(timestr, 255, timeformat, localtime(&t));
 
     /* Generate the whine and output it. */
     vasprintf(&str, fmt, ap);
     pthread_mutex_lock(&printf_lock);
-    if (msgloglvl == MSG_ERR)
-        t = (long int) stderr;
-    else
-        t = (long int) stdout;
-    fprintf((FILE*) t, "[%5i|%s] %s:%i %s\n",
+    fprintf(msgloglvl == MSG_ERR ? stderr : stdout, "[%5i|%s] %s:%i %s\n",
             (int) getpid(), timestr,
             file, line,
             str);
