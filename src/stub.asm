@@ -8,12 +8,10 @@ init:
 loop:
 	xor byte [ebx + eax], 216
 	inc eax
-	cmp eax, 0xcccccccc					; 0xcccc = .text's len - stub's code
+	cmp eax, 0xcccccccc				; 0xcccc = .text's len - stub's code
 	jne loop
 
 fin:
 	popa
-	mov eax, 0xc0febabe					; .text addr
-	push eax
-	ret
-	;jmp far [0x23:0xc0febabe]					; .text addr
+	mov eax, 0xc0febabe				; .text addr
+	jmp eax
