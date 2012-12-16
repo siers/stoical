@@ -7,8 +7,8 @@ init:
 
 loop:
 	xor byte [ebx + eax], 216
-	inc ax
-	cmp ax, 0xcccc					; 0xcccc = .text's len - stub's code
+	inc eax
+	cmp eax, 0xcccccccc					; 0xcccc = .text's len - stub's code
 	jne loop
 
 fin:
