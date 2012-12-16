@@ -1,0 +1,13 @@
+#!/bin/sh
+
+. test/assert/assert.sh
+
+assert_raises "make clean && make && cp main dummy" 0
+assert_end compilation
+
+assert_raises "./main dummy" 0
+assert "md5sum main dummy | awk '{print $1}' | uniq | wc -l" "2"
+assert_raises "./dummy |& grep usage" 0
+assert_end simple_test
+
+rm dummy

@@ -1,0 +1,3 @@
+[submodule "test/assert"]
+	path = test/assert
+	url = https://github.com/lehmannro/assert.sh.git
