@@ -1,0 +1,33 @@
+- stoical, proof-of-concept ELF crypter
+    Currently works on itself.
+    Name taken from wiktionary's word of the day archive.
+    Created for educational purposes, not obligatory to be continued.
+
+- description
+    Rewrites entry point to loaded decrpying stub, crypts your code.
+    Code resides in the end of .text, so some code could get corrupted.
+
+- requirements
+    gcc, linux(shouldn't be too unportable), ruby
+
+- credits
+    * Used blubtxt's elfcrypter as a pointer-magic screwup-helper.
+    * man elf
+    * libelf
+    * ##asm on freenode and Jester01 in particular
+    * wikipedia, stack overflow and the google of course
+
+- usage
+    ./main <elf>
+
+- example
+    % make
+    % cp main dummy
+    % ./main dummy 
+    ...
+    [14291|1852.05] src/main.c:82 Success.
+    % ./dummy
+    [14294|1852.07] src/main.c:101 usage: ./stoical [options] <filename>
+    % md5sum dummy main 
+    65237ac6e20cdae695b2debe191a4e21  dummy
+    bb5136fac2a48713c4d785da2cc20660  main
