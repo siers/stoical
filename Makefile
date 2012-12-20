@@ -1,7 +1,8 @@
 CC=gcc
 CFLAGS=-g3 -Wall -Wextra -D_GNU_SOURCE -o
-LDFLAGS=-lelf
-OBJ=bin/main.o bin/log.o bin/crypt.o
+LDFLAGS=
+OBJ = bin/main.o bin/log.o bin/cipher.o
+OBJ+= bin/file.o bin/elf.o bin/stub.o
 
 AC=nasm
 AFLAGS=-f bin -o

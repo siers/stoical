@@ -1,43 +1,19 @@
 #pragma once
 
-#include <libelf.h>
-#include <gelf.h>
-#include <unistd.h>
-#include <string.h>
 #include <errno.h>
-#include <sys/stat.h>
+#include <fcntl.h>
+#include <libelf.h>
 #include <stdint.h>
-#include <sys/mman.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "log.h"
+#include "cipher.h"
+#include "file.h"
+#include "elf.h"
+#include "stub.h"
 
-#define COUNT_OF(x) (sizeof(x) / sizeof(0[x])
-#define unless(a) if (!(a))
 #define STUB_PATH "stub"
 #define DUMMY_STUB_PATH "bin/stub.bin.tmpl"
-
-struct input {
-    /* File's. */
-    int fd;
-    struct stat st;
-
-    /* Stub's. */
-    int sfd;
-    struct stat sst;
-} input;
-
-extern void* replaces[][2];
-
-enum {
-    TEXT_ADDR,
-    CRYPT_LEN,
-    ENTRY_ADR,
-    REPLACE_COUNT
-};
-
-enum {
-    VAL_OLD,
-    VAL_NEW,
-};
-
-void prepare_stub();
+#define STUB_PREPARE_SCRIPT "src/prepare_stub.rb"
