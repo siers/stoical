@@ -7,7 +7,10 @@ OBJ+= bin/file.o bin/elf.o bin/stub.o
 AC=nasm
 AFLAGS=-f bin -o
 
-all: bin/stub.bin.tmpl main
+all: bin bin/stub.bin.tmpl main
+
+bin:
+	mkdir -p bin
 
 bin/%.bin.tmpl: src/%.asm
 	$(AC) $^ $(AFLAGS) $@
