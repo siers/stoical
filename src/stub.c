@@ -1,9 +1,9 @@
 #include "stub.h"
 
 void* replaces[][2] = {
-    {"c0febabe", (void*) 0},
-    {"cccccccc", (void*) 0},
-    {"eeeeeeee", (void*) 0},
+    {"c0febabec0febabe", (void*) 0},
+    {"c0fec0fec0fec0fe", (void*) 0},
+    {"babebabebabebabe", (void*) 0},
     /* Add enums for every entry in main.h */
 };
 

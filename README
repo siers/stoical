@@ -1,20 +1,18 @@
-- stoical, proof-of-concept ELF crypter
+- stoical, proof-of-concept ELF crypter (apparently 32-bit only)
     Name taken from wiktionary's word of the day archive.
     Created for educational purposes, not obligatory to be continued.
 
 - description
     Rewrites entry point to loaded decrpying stub, crypts your code.
     Code resides in the end of .text, so some code could get corrupted.
+    It has one single and simple unittest.
 
 - requirements
-    gcc, linux(shouldn't be too unportable), ruby
+    gcc, nasm, linux(shouldn't be too unportable), ruby
 
-- credits
-    * Used blubtxt's elfcrypter as a pointer-magic screwup-helper.
-    * man elf
-    * libelf
-    * ##asm on freenode and Jester01 in particular
-    * wikipedia, stack overflow and the google of course
+- issues
+    The code at the end of .text might be called at some point,
+    when that happens a segfault will probably occur.
 
 - usage
     ./main <elf>
@@ -23,8 +21,18 @@
     % make
     % cp /bin/zsh .
     % ./main zsh
-    % echo "echo $(( 9 * 9 ))" | ./zsh 
+    % echo "echo $(( 9 * 9 ))" | ./zsh
     81
     % md5sum /bin/zsh zsh
     e38b368b434e201d1b09475d40397603  /bin/zsh
     dae87ce1e2e8e6368306912798982b5b  zsh
+
+- license
+    MIT
+
+- credits
+    * blubtxt's elfcrypter as an reference.
+    * man elf
+    * libelf
+    * ##asm on freenode and Jester01 in particular
+    * wikipedia, stack overflow

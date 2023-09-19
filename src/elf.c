@@ -5,11 +5,11 @@ struct file elf;
 static void
 find_text()
 {
-    Elf32_Shdr* str = &exec.secs[exec.ehdr->e_shstrndx];
+    Elf64_Shdr* str = &exec.secs[exec.ehdr->e_shstrndx];
 
     int i;
     char* sh_name;
-    Elf32_Shdr* sec;
+    Elf64_Shdr* sec;
 
     for (i = 0; i < exec.ehdr->e_shnum; i++)
     {
@@ -66,7 +66,7 @@ static void
 set_writable()
 {
     size_t i;
-    Elf32_Phdr *phdrs = exec.mem + exec.ehdr->e_phoff;
+    Elf64_Phdr *phdrs = exec.mem + exec.ehdr->e_phoff;
 
     exec.text->sh_flags |= SHF_WRITE;
 

@@ -5,11 +5,11 @@
 struct executable {
     union {
         void*           mem;
-        Elf32_Ehdr*     ehdr;
+        Elf64_Ehdr*     ehdr;
     };
 
-    Elf32_Shdr*     text;
-    Elf32_Shdr*     secs;
+    Elf64_Shdr*     text;
+    Elf64_Shdr*     secs;
     size_t stub_offset;
 } exec;
 
